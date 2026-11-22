@@ -129,5 +129,4 @@ This was built BYOK-first on purpose, after weighing the options:
 
 License
 -------
-Pick whatever you like (MIT is the simplest "do whatever, just credit me"
-option) before publishing publicly.
+MIT — see LICENSE.
