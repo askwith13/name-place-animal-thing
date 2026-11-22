@@ -22,6 +22,12 @@ Features
   clause, e.g. "a toaster, slightly broken"). Only ~15% of individual picks
   draw from the modified pool (`MODIFIER_CHANCE` in app.js), so most questions
   read clean and only occasionally pick up a descriptor.
+- "Tone down the freak" toggle: switches question generation from 3 random
+  categories to 2, for calmer, simpler questions (e.g. "Why did a dentist
+  go to the Moon's dark side?" instead of a 3-category combo). The choice
+  persists across reloads (localStorage). All 15 possible 2-category
+  combinations have their own grammatical template — see `SINGLE_TEMPLATES`
+  in app.js.
 
 Data files are two columns (`name,modified`) precisely so this weighting can
 happen at runtime without touching the CSVs — turn `MODIFIER_CHANCE` up or

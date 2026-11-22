@@ -83,18 +83,19 @@ function lowerLead(s) {
   return s.replace(/^(A|An|The)\b/, w => w.toLowerCase());
 }
 
-// There are 6 possible categories; every question uses exactly 3 of them.
+// There are 6 possible categories; a question normally uses 3 of them,
+// or 2 when "Tone down the freak" mode is on (see TONE_DOWN_KEY below).
 const ALL_CATEGORIES = ["name", "place", "animal", "profession", "thing", "sport"];
 // Categories that can plausibly be the "doer" of the action, in priority order.
 const SUBJECT_PRIORITY = ["name", "animal", "profession"];
 
-function pickThreeCategories() {
+function pickCategories(n) {
   const shuffled = [...ALL_CATEGORIES];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
-  return shuffled.slice(0, 3);
+  return shuffled.slice(0, n);
 }
 
 function elementFor(cat) {
@@ -124,11 +125,22 @@ const PAIR_TEMPLATES = {
   "sport+thing":       e => `use ${e.thing} to win a game of ${e.sport}`,
 };
 
-// Build a grammatically sane question from whichever 3 categories were chosen,
-// for whichever starter word (what/why/how) was chosen.
-function buildQuestion() {
+// Single-category phrases, used when only one category is left after the
+// subject slot is filled (happens in 2-category "Tone down the freak" mode).
+const SINGLE_TEMPLATES = {
+  place:      e => `go to ${e.place}`,
+  thing:      e => `carry ${e.thing} everywhere`,
+  sport:      e => `challenge everyone to a game of ${e.sport}`,
+  animal:     e => `argue with ${e.animal}`,
+  profession: e => `go see ${e.profession}`,
+};
+
+// Build a grammatically sane question from whichever categories were chosen
+// (3 by default, or 2 in "Tone down the freak" mode), for whichever starter
+// word (what/why/how) was chosen.
+function buildQuestion(categoryCount = 3) {
   const starter = pick(["What", "Why", "How"]);
-  const cats = pickThreeCategories();
+  const cats = pickCategories(categoryCount);
   const parts = {};
   cats.forEach(c => parts[c] = lowerLead(elementFor(c)));
 
@@ -137,8 +149,13 @@ function buildQuestion() {
   const remaining = cats.filter(c => c !== subjectCat);
 
   let verbPhrase;
-  if (remaining.length === 3) {
-    // Only possible when no subject-type category was picked: place+thing+sport exactly.
+  if (remaining.length === 0) {
+    verbPhrase = "do something truly unexplainable";
+  } else if (remaining.length === 1) {
+    verbPhrase = SINGLE_TEMPLATES[remaining[0]] ? SINGLE_TEMPLATES[remaining[0]](parts) : "do something truly unexplainable";
+  } else if (remaining.length === 3) {
+    // Only possible in default 3-category mode when no subject-type category
+    // was picked: place+thing+sport exactly.
     verbPhrase = `bring ${parts.thing} to ${parts.place} for a game of ${parts.sport}`;
   } else {
     const key = [...remaining].sort().join("+");
@@ -422,6 +439,24 @@ const el = id => document.getElementById(id);
 let currentAnswer = "";
 let currentRating = null;
 
+const TONE_DOWN_KEY = "npat_tone_down";
+function isToneDownOn() {
+  return localStorage.getItem(TONE_DOWN_KEY) === "1";
+}
+function setToneDown(on) {
+  localStorage.setItem(TONE_DOWN_KEY, on ? "1" : "0");
+  updateToneDownButton();
+}
+function updateToneDownButton() {
+  const on = isToneDownOn();
+  const btn = el("toneDown");
+  btn.textContent = on ? "🤪 Unleash the freak" : "🙈 Tone down the freak";
+  btn.classList.toggle("active", on);
+}
+function generateQuestion() {
+  return buildQuestion(isToneDownOn() ? 2 : 3);
+}
+
 function showSetup() {
   el("setup").classList.remove("hidden");
   el("game").classList.add("hidden");
@@ -443,6 +478,7 @@ function resetRoundUI() {
 
 window.addEventListener("DOMContentLoaded", async () => {
   await loadAllData();
+  updateToneDownButton();
 
   const savedProvider = localStorage.getItem("ae_provider");
   const savedKey = localStorage.getItem("ae_key");
@@ -468,7 +504,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   });
 
   el("newQuestion").addEventListener("click", () => {
-    currentQuestion = buildQuestion();
+    currentQuestion = generateQuestion();
     el("question").textContent = currentQuestion;
     el("answerBox").classList.remove("hidden");
     resetRoundUI();
@@ -515,10 +551,14 @@ window.addEventListener("DOMContentLoaded", async () => {
   });
 
   el("playAgain").addEventListener("click", () => {
-    currentQuestion = buildQuestion();
+    currentQuestion = generateQuestion();
     el("question").textContent = currentQuestion;
     resetRoundUI();
     el("answerBox").classList.remove("hidden");
+  });
+
+  el("toneDown").addEventListener("click", () => {
+    setToneDown(!isToneDownOn());
   });
 
   el("downloadCard").addEventListener("click", () => {

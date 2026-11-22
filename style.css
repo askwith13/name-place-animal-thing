@@ -112,3 +112,6 @@ footer { text-align: center; margin-top: 10px; }
 .hofEntry .hofAnswer { font-size: 0.85rem; color: var(--text); font-style: italic; margin: 4px 0; }
 .hofEntry .hofMeta { font-size: 0.78rem; color: var(--muted); }
 .hofEmpty { color: var(--muted); font-size: 0.9rem; margin-top: 14px; }
+.newQuestionRow { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.newQuestionRow .linklike { font-size: 0.82rem; }
+.newQuestionRow .linklike.active { color: var(--accent2); text-decoration: none; font-weight: 600; }
