@@ -243,7 +243,7 @@ async function rateAnswer(provider, apiKey, question, answer) {
   if (provider === "openai") {
     return callOpenAICompatible("https://api.openai.com/v1/chat/completions", "gpt-4o-mini", apiKey, question, answer);
   } else if (provider === "groq") {
-    return callOpenAICompatible("https://api.groq.com/openai/v1/chat/completions", "llama-3.1-8b-instant", apiKey, question, answer);
+    return callOpenAICompatible("https://api.groq.com/openai/v1/chat/completions", "openai/gpt-oss-20b", apiKey, question, answer);
   } else if (provider === "anthropic") {
     return callAnthropic(apiKey, question, answer);
   }
