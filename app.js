@@ -1,8 +1,8 @@
-// The Absurdity Engine
+// Name, Place, Animal, Thing
 // Pure client-side app. No backend. User's API key never leaves their browser
 // except in the direct request to the provider they chose.
 
-let DATA = { personalities: [], places: [], animals: [], things: [] };
+let DATA = { names: [], places: [], animals: [], things: [], professions: [], sports: [] };
 let currentQuestion = "";
 
 async function loadCSV(path) {
@@ -10,19 +10,34 @@ async function loadCSV(path) {
   const text = await res.text();
   return text
     .split("\n")
-    .map(l => l.trim())
+    .map(l => l.replace(/\r$/, ""))
     .filter(l => l.length > 0)
-    .slice(1); // drop header row
+    .slice(1) // drop header row
+    .map(unquoteCSVField);
+}
+
+// Single-column CSV fields get wrapped in "..." (with "" for an embedded
+// quote) by any standard CSV writer whenever the value itself contains a
+// comma — e.g. our postfix-modifier entries like "a toaster, slightly broken".
+// Undo that quoting here instead of leaking literal quote marks into the UI.
+function unquoteCSVField(field) {
+  const f = field.trim();
+  if (f.startsWith('"') && f.endsWith('"')) {
+    return f.slice(1, -1).replace(/""/g, '"');
+  }
+  return f;
 }
 
 async function loadAllData() {
-  const [personalities, places, animals, things] = await Promise.all([
+  const [names, places, animals, things, professions, sports] = await Promise.all([
     loadCSV("data/personalities.csv"),
     loadCSV("data/places.csv"),
     loadCSV("data/animals.csv"),
-    loadCSV("data/things.csv")
+    loadCSV("data/things.csv"),
+    loadCSV("data/professions.csv"),
+    loadCSV("data/sports.csv")
   ]);
-  DATA = { personalities, places, animals, things };
+  DATA = { names, places, animals, things, professions, sports };
 }
 
 function pick(arr) {
@@ -35,28 +50,46 @@ function lowerLead(s) {
   return s.replace(/^(A|An|The)\b/, w => w.toLowerCase());
 }
 
-function capitalizeFirst(s) {
-  return s.charAt(0).toUpperCase() + s.slice(1);
-}
+// There are 6 possible categories; every question uses exactly 3 of them.
+const ALL_CATEGORIES = ["name", "place", "animal", "profession", "thing", "sport"];
+// Categories that can plausibly be the "doer" of the action, in priority order.
+const SUBJECT_PRIORITY = ["name", "animal", "profession"];
 
-// Pick exactly 3 of the 4 categories at random, each run
 function pickThreeCategories() {
-  const all = ["personality", "place", "animal", "thing"];
-  for (let i = all.length - 1; i > 0; i--) {
+  const shuffled = [...ALL_CATEGORIES];
+  for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [all[i], all[j]] = [all[j], all[i]];
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
-  return all.slice(0, 3);
+  return shuffled.slice(0, 3);
 }
 
 function elementFor(cat) {
   switch (cat) {
-    case "personality": return pick(DATA.personalities);
+    case "name": return pick(DATA.names);
     case "place": return pick(DATA.places);
     case "animal": return pick(DATA.animals);
+    case "profession": return pick(DATA.professions);
     case "thing": return pick(DATA.things);
+    case "sport": return pick(DATA.sports);
   }
 }
+
+// Two-category modifier phrases, keyed by the pair sorted alphabetically.
+// "name" never appears here because it always wins the subject slot when present
+// (see buildQuestion), so it can never end up as a non-subject modifier.
+const PAIR_TEMPLATES = {
+  "animal+place":      e => `bring ${e.animal} to ${e.place}`,
+  "animal+profession": e => `convince ${e.profession} to adopt ${e.animal}`,
+  "animal+sport":      e => `challenge ${e.animal} to a game of ${e.sport}`,
+  "animal+thing":      e => `give ${e.thing} to ${e.animal}`,
+  "place+profession":  e => `hire ${e.profession} to work at ${e.place}`,
+  "place+sport":       e => `organize a game of ${e.sport} at ${e.place}`,
+  "place+thing":       e => `bring ${e.thing} to ${e.place}`,
+  "profession+sport":  e => `challenge ${e.profession} to a game of ${e.sport}`,
+  "profession+thing":  e => `give ${e.thing} to ${e.profession}`,
+  "sport+thing":       e => `use ${e.thing} to win a game of ${e.sport}`,
+};
 
 // Build a grammatically sane question from whichever 3 categories were chosen,
 // for whichever starter word (what/why/how) was chosen.
@@ -66,43 +99,31 @@ function buildQuestion() {
   const parts = {};
   cats.forEach(c => parts[c] = lowerLead(elementFor(c)));
 
-  const has = c => cats.includes(c);
-  const subject = has("personality") ? parts.personality
-                 : has("animal") ? parts.animal
-                 : "someone";
+  const subjectCat = SUBJECT_PRIORITY.find(c => cats.includes(c)) || null;
+  const subject = subjectCat ? parts[subjectCat] : "someone";
+  const remaining = cats.filter(c => c !== subjectCat);
 
-  let verbPhrase; // the core action clause, varies by which categories are present
-  if (has("place") && has("thing")) {
-    verbPhrase = `bring ${parts.thing} to ${parts.place}`;
-  } else if (has("place") && has("animal") && !has("personality")) {
-    verbPhrase = `bring ${parts.animal} to ${parts.place}`;
-  } else if (has("place")) {
-    verbPhrase = `go to ${parts.place}`;
-  } else if (has("thing") && has("animal") && has("personality")) {
-    verbPhrase = `give ${parts.thing} to ${parts.animal}`;
-  } else if (has("thing")) {
-    verbPhrase = `carry ${parts.thing} everywhere`;
-  } else if (has("animal") && has("personality")) {
-    verbPhrase = `argue with ${parts.animal}`;
+  let verbPhrase;
+  if (remaining.length === 3) {
+    // Only possible when no subject-type category was picked: place+thing+sport exactly.
+    verbPhrase = `bring ${parts.thing} to ${parts.place} for a game of ${parts.sport}`;
   } else {
-    verbPhrase = `do that`;
+    const key = [...remaining].sort().join("+");
+    verbPhrase = PAIR_TEMPLATES[key] ? PAIR_TEMPLATES[key](parts) : "do something truly unexplainable";
   }
 
-  let question;
   if (starter === "What") {
-    question = `What made ${subject} ${verbPhrase}?`;
+    return `What made ${subject} ${verbPhrase}?`;
   } else if (starter === "Why") {
-    question = `Why did ${subject} ${verbPhrase}?`;
+    return `Why did ${subject} ${verbPhrase}?`;
   } else {
-    question = `How did ${subject} manage to ${verbPhrase}?`;
+    return `How did ${subject} manage to ${verbPhrase}?`;
   }
-  // Capitalize subject nicely already comes from data; just return.
-  return question;
 }
 
 // ---------- AI CALL ----------
 
-const RATING_INSTRUCTIONS = `You are a sharp, funny judge for a game called "The Absurdity Engine".
+const RATING_INSTRUCTIONS = `You are a sharp, funny judge for a game called "Name, Place, Animal, Thing".
 The player was given an absurd question with no real answer, and wrote their own made-up answer.
 Rate their answer on these five axes, each 0-10:
 - funny: how genuinely funny/amusing it is

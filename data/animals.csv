@@ -1,51 +1,301 @@
 name
 a pangolin
-a three-headed dragon
-a honey badger
-a sloth wearing sunglasses
-a unicorn with a cold
-a flock of pigeons
-a very judgmental cat
+an aardvark
 a narwhal
 a platypus
-a swarm of bees in formal wear
-a vampire bat with stage fright
-a chameleon that can't decide on a color
-a very small elephant
-a griffin missing one wing
-a herd of alpacas
-a jellyfish that glows when embarrassed
-a tap-dancing octopus
-a cyborg raccoon
-a flamingo on roller skates
-a yeti with a sinus infection
-a mischievous fox
-a overconfident chihuahua
-a kraken with anxiety
-a penguin in a business suit
-a telepathic goldfish
-a dinosaur that time-traveled by accident
-a wombat with a law degree
-a phoenix mid-molt
-a camel that refuses to walk
-a very polite shark
-a koala on espresso
-a minotaur who forgot his gym bag
-a velociraptor learning to knit
-a snail with a jetpack
-a werewolf allergic to the moon
-a sentient tumbleweed
-a hedgehog who thinks he's a porcupine
-a basilisk with poor eyesight
-a giant squid who is claustrophobic
-a centaur who lost his horse half
-a mermaid who can't swim
-a owl with insomnia
-a dragon afraid of heights
-a tiny gremlin with big opinions
-a bear who runs a bakery
-a cat that only speaks in riddles
-a lemur with a gambling problem
-a sea otter who collects grudges
-a baby yak with anger issues
-a talking tortoise who is always late
+a red panda
+a blobfish
+an axolotl
+a quokka
+a tapir
+an okapi
+a fossa
+a kinkajou
+a binturong
+a markhor
+a saiga antelope
+a dhole
+a numbat
+an echidna
+a wolverine
+a lynx
+a caracal
+a serval
+an ocelot
+a margay
+a jaguarundi
+a kakapo
+a shoebill stork
+a hoatzin
+a cassowary
+a secretarybird
+a harpy eagle
+a king vulture
+a maned wolf
+an aardwolf
+an aye-aye
+a tarsier
+a slow loris
+a proboscis monkey
+a mandrill
+a gelada baboon
+a douc langur
+a saola
+a bongo antelope
+a gerenuk
+a dik-dik
+a pronghorn
+a takin
+a nilgai
+a dugong
+a manatee
+a narwhal calf
+a giant anteater
+a sloth bear
+a sun bear
+a spectacled bear
+a Tasmanian devil
+a wombat
+a capybara
+a mara
+an agouti
+a coati
+an olingo
+a margay cat
+a clouded leopard
+a snow leopard
+a fishing cat
+a flat-headed cat
+a pallas's cat
+a sand cat
+a black-footed cat
+a rusty-spotted cat
+a honey badger
+a star-nosed mole
+a naked mole rat
+a pink fairy armadillo
+a giant armadillo
+a nine-banded armadillo
+a pygmy hippo
+a warthog
+a babirusa
+a peccary
+a muskox
+a yak
+a markhor goat
+a chamois
+an ibex
+an argali sheep
+a vicuna
+an alpaca
+a llama
+a guanaco
+an emu
+a rhea
+a kiwi bird
+a kakapo parrot
+a hoopoe
+a hornbill
+a toucan
+a quetzal
+a lyrebird
+a bowerbird
+a frogmouth
+a kagu
+a potoo
+a tawny frogmouth
+a vampire bat
+a flying fox
+a colugo
+a sugar glider
+a quokka joey
+a Komodo dragon
+a thorny devil
+a frilled lizard
+a basilisk lizard
+a marine iguana
+a chameleon
+a leaf-tailed gecko
+a tokay gecko
+a mata mata turtle
+a leatherback turtle
+a matamata
+an axolotl larva
+a Chinese giant salamander
+an olm salamander
+a mudskipper
+an archerfish
+a mantis shrimp
+a giant isopod
+a vampire squid
+a dumbo octopus
+a flamboyant cuttlefish
+a mantis
+a leafcutter ant
+a bullet ant
+an atlas moth
+a luna moth
+a death's-head hawkmoth
+a goliath beetle
+a hercules beetle
+a giant weta
+a tarantula hawk wasp
+a honeypot ant
+a portuguese man o' war
+a nautilus
+a giant clam
+a sea pig
+a yeti crab
+a vampire crab
+a coconut crab
+a spider crab
+a mantis shrimp cousin
+a narwhal pod leader
+a beluga whale
+a narwhal's rival the walrus
+an elephant seal
+a leopard seal
+a crabeater seal
+a weddell seal
+a hooded seal
+a sea otter
+a river otter
+a giant otter
+a platypus cousin the echidna
+a wombat's uncle
+a dragon
+a unicorn
+a griffin
+a basilisk
+a phoenix
+a kraken
+a chimera
+a hydra
+a sphinx
+a pegasus
+a minotaur
+a cerberus
+a cockatrice
+a manticore
+a wyvern
+a leviathan
+a jackalope
+a yeti
+a chupacabra
+a mothman
+a loch ness monster
+a bigfoot
+a sea serpent
+a thunderbird
+a wendigo
+a kelpie
+a selkie
+a will-o'-the-wisp creature
+a roc
+a hippogriff
+a fire salamander spirit
+an ice phoenix
+a shadow wolf
+a moon rabbit
+a sun turtle
+a cloud dragon
+a storm eagle
+a sand worm
+a crystal stag
+a void cat
+a ghost fox
+a nine-tailed fox
+a qilin
+a baku dream-eater
+a tanuki shapeshifter
+a kappa
+a tengu
+an oni
+a yokai cat
+a dire wolf
+a sabretooth tiger ghost
+a mammoth spirit
+a two-headed llama
+a three-eyed owl
+a rainbow axolotl
+a telepathic jellyfish
+a singing whale of legend
+a clockwork sparrow
+a paper dragon
+an origami crane that came to life
+a cactus cat
+a jersey devil
+an ogopogo
+a bunyip
+a drop bear
+a tatzelwurm
+a grootslang
+a lindworm
+an amphisbaena
+a catoblepas
+a peryton
+a simurgh
+an alicanto
+a cuegle
+a gulon
+a pombero's pet armadillo
+a caipora's deer
+"a gelada baboon, jet-lagged"
+"a hooded seal, time-traveling"
+"a narwhal, mildly cursed"
+"a quokka joey, philosophical"
+"a kappa, legally blind"
+"a shadow wolf, mysteriously wealthy"
+"a mandrill, insomniac"
+"a mudskipper, caffeinated"
+"a sabretooth tiger ghost, notoriously clumsy"
+"a hoatzin, bilingual"
+"a vampire squid, homesick"
+"a thorny devil, semi-professional"
+"an axolotl larva, self-taught"
+"a frogmouth, left-handed"
+"a roc, left-handed"
+"a yokai cat, undercover"
+"an alicanto, surprisingly elegant"
+"an aye-aye, left-handed"
+"a bigfoot, semi-professional"
+"a basilisk, mysteriously wealthy"
+"a cockatrice, reluctant"
+"a margay, retired"
+"a will-o'-the-wisp creature, mildly cursed"
+"a sand cat, jet-lagged"
+"a hoatzin, mysteriously wealthy"
+"an aardwolf, washed-up"
+"a cloud dragon, notoriously clumsy"
+"a three-eyed owl, left-handed"
+"a tanuki shapeshifter, bilingual"
+"a void cat, bilingual"
+"a kappa, sleep-deprived"
+"a tapir, haunted"
+"a basilisk lizard, mildly cursed"
+"a kakapo, reluctant"
+"a nilgai, sleep-deprived"
+"a chupacabra, legally blind"
+"a king vulture, undercover"
+"a hydra, time-traveling"
+"a hoopoe, self-taught"
+"a catoblepas, telepathic"
+"a frilled lizard, jet-lagged"
+"a crystal stag, mildly cursed"
+"a cassowary, insomniac"
+"an olingo, haunted"
+"a flying fox, unlicensed"
+"a proboscis monkey, caffeinated"
+"a peccary, mysteriously wealthy"
+"a mata mata turtle, award-winning"
+"a lyrebird, aspiring"
+"a mudskipper, feral"
+"a tanuki shapeshifter, mysteriously wealthy"
+"a mantis shrimp, telepathic"
+"a giant weta, overconfident"
+"a leatherback turtle, bilingual"
+"a giant weta, caffeinated"
+"a singing whale of legend, legally blind"
+"a dhole, semi-professional"
+"a jackalope, legally blind"
+"a bullet ant, washed-up"
