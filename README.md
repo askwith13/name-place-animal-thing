@@ -1,0 +1,89 @@
+# The Absurdity Engine
+
+A web game that asks you questions with no possible right answer, and lets an AI
+judge your answer on funniness, absurdity, weirdness, darkness, and cleverness —
+including whether you used a pun or a clever reference.
+
+Example question: "Why did a pangolin take a toaster to a chess tournament?"
+There is no punchline. You have to make one up. The AI judges you for it.
+
+How it works
+------------
+- Question generator (data/*.csv + app.js): picks a random starter word
+  (What / Why / How), then randomly selects 3 of 4 categories — personality,
+  place, animal, thing — pulling one random entry from each CSV, and builds a
+  grammatically sane question from a template. This part is pure JavaScript,
+  completely free, no AI involved.
+- Answer rating (app.js -> your chosen AI provider): only this step calls an AI.
+  One short API call per submitted answer returns five 0-10 scores plus
+  pun/reference detection and a one-line verdict.
+
+Architecture: zero backend
+---------------------------
+This is a single static site (index.html + style.css + app.js + data/*.csv).
+There is no server, no database. You bring your own AI API key (BYOK):
+
+1. You paste your key into the "Step 1" box on first load.
+2. It's saved only in your browser's localStorage.
+3. Every rating request goes straight from your browser to your chosen
+   provider's API (OpenAI / Anthropic / Groq) — never through any server of
+   ours, because none exists.
+
+This means running this app costs YOU nothing to host, and costs the PLAYER
+whatever their own API key costs them (fractions of a cent per answer with
+the cheap models below). Nobody's wallet but the player's own is ever on the
+hook.
+
+Running it locally
+-------------------
+Browsers block `fetch()` of local CSV files when you just double-click
+index.html (file:// has no CORS), so serve the folder instead:
+
+    cd absurdity-engine
+    python3 -m http.server 8080
+
+Then open http://localhost:8080 in your browser.
+
+Getting an API key
+-------------------
+- Groq (recommended — fast, has a genuinely free tier): console.groq.com
+- OpenAI (gpt-4o-mini, very cheap): platform.openai.com/api-keys
+- Anthropic (claude-3-5-haiku, very cheap): console.anthropic.com
+
+Deploying it for others to use
+-------------------------------
+Since it's fully static, it deploys for free on:
+- GitHub Pages (Settings -> Pages -> deploy from branch) — simplest option,
+  and keeps it a single open-source repo people can also just clone and run
+  locally.
+- Netlify / Vercel (drag-and-drop the folder, or connect the repo).
+
+Extending the question bank
+-----------------------------
+Edit data/personalities.csv, data/places.csv, data/animals.csv, data/things.csv.
+One entry per line, header row stays as "name". Mix real and imaginary freely —
+that's the point. No code changes needed; the generator just reads whatever is
+in the files.
+
+Monetization / advertising notes
+-----------------------------------
+This was built BYOK-first on purpose, after weighing the options:
+- Hosting it yourself and paying for every player's AI call doesn't scale
+  risk-free — a single viral spike could run up real charges.
+- BYOK means zero cost and zero liability to the maintainer. Anyone can run
+  it fully standalone with their own key.
+- If you want a public, no-setup-required demo anyway, host one copy
+  yourself with a hard per-visitor rate limit (e.g. 5 ratings/day via a
+  cookie), using the cheapest model (Groq's free tier or gpt-4o-mini), and
+  optionally an ad banner or tip-jar link on that hosted page only. Keep the
+  open-source repo itself fully BYOK so the "serious" audience can play free,
+  unlimited, forever.
+- Good distribution channels for a tool like this: Show HN (Hacker News),
+  r/InternetIsBeautiful, r/SideProject, Product Hunt. Honesty about it being
+  "AI judges your sense of humor" is the whole hook — lead with that in any
+  post title.
+
+License
+-------
+Pick whatever you like (MIT is the simplest "do whatever, just credit me"
+option) before publishing publicly.

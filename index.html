@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Absurdity Engine</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <h1>🤪 The Absurdity Engine</h1>
+    <p class="tagline">Answer the unanswerable. Get judged by an AI for your wit, weirdness and wordplay.</p>
+
+    <!-- SETUP PANEL: user supplies their own key, nothing ever leaves their browser except straight to the provider -->
+    <div id="setup" class="card">
+      <h2>Step 1 — connect your own AI key (BYOK)</h2>
+      <p class="small">Your key is stored only in this browser's local storage and is sent directly to the provider you pick below — never to any server of ours, because there isn't one. This app is a single static page.</p>
+      <label>Provider</label>
+      <select id="provider">
+        <option value="groq">Groq (free tier available — get a key at console.groq.com)</option>
+        <option value="openai">OpenAI (gpt-4o-mini)</option>
+        <option value="anthropic">Anthropic (claude-3-5-haiku)</option>
+      </select>
+      <label>API Key</label>
+      <input type="password" id="apiKey" placeholder="Paste your API key here">
+      <button id="saveKey">Save & Continue</button>
+      <p class="small muted" id="savedNote"></p>
+    </div>
+
+    <!-- GAME PANEL -->
+    <div id="game" class="card hidden">
+      <div class="toprow">
+        <span class="small muted" id="providerNote"></span>
+        <button class="linklike" id="changeKey">change key / provider</button>
+      </div>
+      <h2 id="question">Click "New Question" to begin.</h2>
+      <button id="newQuestion">🎲 New Question</button>
+
+      <div id="answerBox" class="hidden">
+        <textarea id="answer" placeholder="Type your answer here. Go on, be absurd."></textarea>
+        <button id="submitAnswer">Submit Answer for Judgement</button>
+      </div>
+
+      <div id="result" class="hidden">
+        <h3 id="verdictLine"></h3>
+        <div class="scores" id="scores"></div>
+        <p id="punNote"></p>
+        <p id="feedback" class="small"></p>
+        <button id="playAgain">Play Again</button>
+      </div>
+
+      <div id="loading" class="hidden small muted">Judging your absurdity...</div>
+      <div id="errorBox" class="hidden small error"></div>
+    </div>
+
+    <footer>
+      <p class="small muted">Open source. Bring your own API key. No ads, no server, no tracking.</p>
+    </footer>
+  </div>
+
+<script src="app.js"></script>
+</body>
+</html>
