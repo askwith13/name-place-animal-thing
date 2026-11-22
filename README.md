@@ -8,6 +8,25 @@ Example question: "Why did a pangolin, caffeinated bring a toaster to a chess
 tournament?" There is no punchline. You have to make one up. The AI judges you
 for it.
 
+Features
+--------
+- Shareable result card: after each round, "Download share card" renders your
+  question, answer, and five-axis scorecard as a PNG image (sized to fit
+  whatever you wrote — no cropping on long answers), and "copy as text" puts
+  a plain-text version on your clipboard for pasting into chat apps.
+- Hall of Fame: your top 5 highest-scoring answers ever (by total of the five
+  axis scores, out of 50) are saved in this browser's localStorage and shown
+  via the 🏆 button. Nothing leaves your machine.
+- Modifier frequency is deliberately low: each category has a large "plain"
+  pool and a smaller "modified" pool (base item + a trailing adjective/adverb
+  clause, e.g. "a toaster, slightly broken"). Only ~15% of individual picks
+  draw from the modified pool (`MODIFIER_CHANCE` in app.js), so most questions
+  read clean and only occasionally pick up a descriptor.
+
+Data files are two columns (`name,modified`) precisely so this weighting can
+happen at runtime without touching the CSVs — turn `MODIFIER_CHANCE` up or
+down any time to change how adjective-heavy questions feel.
+
 How it works
 ------------
 - Question generator (data/*.csv + app.js): picks a random starter word
@@ -93,11 +112,12 @@ any time you want a fresh batch; they overwrite data/*.csv.
 
 Known gotchas (if you extend the generator)
 -----------------------------------------------
-- CSV quoting: any field containing a comma gets wrapped in double quotes by
-  a standard CSV writer (including Python's csv module). The loader in
-  app.js (`unquoteCSVField`) strips that back off — if you write a different
-  loader, remember to handle quoted fields or you'll get literal `"` marks
-  leaking into rendered questions.
+- CSV quoting: data files are two columns (`name,modified`), and any field
+  containing a comma gets wrapped in double quotes by a standard CSV writer
+  (including Python's csv module) — which the "base, modifier" entries
+  trigger constantly. The loader in app.js (`parseCSVRow`) does real
+  quote-aware field splitting; a naive `split(",")` will both misplace the
+  modified-flag column and leak literal `"` marks into rendered questions.
 - a/an: don't assume "starts with a vowel letter => use 'an'" — words like
   "unicorn", "unicycle", "ukulele" start with a consonant *sound* and still
   take "a". See `article_for()` in the gen_data scripts for the exception

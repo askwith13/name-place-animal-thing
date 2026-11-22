@@ -1,30 +1,8 @@
-import csv, random
+import sys, os, random
+sys.path.insert(0, os.path.dirname(__file__))
+from common import write_csv, dedupe_fill
 
 random.seed(7)
-
-def write_csv(path, items):
-    with open(path, "w", newline="") as f:
-        w = csv.writer(f)
-        w.writerow(["name"])
-        for it in items:
-            w.writerow([it])
-
-def dedupe_fill(base_list, modifiers, target):
-    """Postfix style ("the Dead Sea, on fire") avoids a/an article bugs
-    and works for both single adjectives and verb-phrase modifiers."""
-    seen, seen_set = [], set()
-    def add(s):
-        if s not in seen_set:
-            seen_set.add(s); seen.append(s)
-    for b in base_list:
-        add(b)
-    combos = [(m, b) for m in modifiers for b in base_list]
-    random.shuffle(combos)
-    i = 0
-    while len(seen) < target and i < len(combos):
-        m, b = combos[i]; i += 1
-        add(f"{b}, {m}")
-    return seen[:target]
 
 # ---------------- PLACES ----------------
 real_places = ["the Bermuda Triangle","Mount Everest's summit","the International Space Station","the Great Wall of China",
@@ -68,4 +46,4 @@ place_modifiers = ["abandoned","overcrowded","suspiciously quiet","under renovat
 all_places_base = real_places + imaginary_places
 places = dedupe_fill(all_places_base, place_modifiers, 300)
 write_csv("data/places.csv", places)
-print("places:", len(places), len(set(places)))
+print("places:", len(places), len(set(p for p, _ in places)))

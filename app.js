@@ -2,30 +2,54 @@
 // Pure client-side app. No backend. User's API key never leaves their browser
 // except in the direct request to the provider they chose.
 
+// Each category is split into "plain" entries (just the base item) and
+// "modified" entries (base item + a trailing adjective/adverb clause, e.g.
+// "a toaster, slightly broken"). MODIFIER_CHANCE controls how often a
+// modified entry gets picked over a plain one — kept low so the generated
+// questions don't drown in adjectives.
+const MODIFIER_CHANCE = 0.15;
+
 let DATA = { names: [], places: [], animals: [], things: [], professions: [], sports: [] };
 let currentQuestion = "";
 
 async function loadCSV(path) {
   const res = await fetch(path, { cache: "no-store" });
   const text = await res.text();
-  return text
+  const rows = text
     .split("\n")
     .map(l => l.replace(/\r$/, ""))
     .filter(l => l.length > 0)
-    .slice(1) // drop header row
-    .map(unquoteCSVField);
+    .slice(1); // drop header row
+  const plain = [];
+  const modified = [];
+  rows.forEach(row => {
+    const [nameField, modifiedField] = parseCSVRow(row);
+    (modifiedField === "1" ? modified : plain).push(nameField);
+  });
+  return { plain, modified };
 }
 
-// Single-column CSV fields get wrapped in "..." (with "" for an embedded
-// quote) by any standard CSV writer whenever the value itself contains a
-// comma — e.g. our postfix-modifier entries like "a toaster, slightly broken".
-// Undo that quoting here instead of leaking literal quote marks into the UI.
-function unquoteCSVField(field) {
-  const f = field.trim();
-  if (f.startsWith('"') && f.endsWith('"')) {
-    return f.slice(1, -1).replace(/""/g, '"');
+// Splits a CSV row into fields, respecting double-quoted fields that may
+// contain the delimiter (a standard CSV writer quotes any field containing
+// a comma — our "base, modifier" entries trigger this on the first column).
+function parseCSVRow(row) {
+  const fields = [];
+  let cur = "";
+  let inQuotes = false;
+  for (let i = 0; i < row.length; i++) {
+    const c = row[i];
+    if (inQuotes) {
+      if (c === '"' && row[i + 1] === '"') { cur += '"'; i++; }
+      else if (c === '"') { inQuotes = false; }
+      else { cur += c; }
+    } else {
+      if (c === '"') { inQuotes = true; }
+      else if (c === ",") { fields.push(cur); cur = ""; }
+      else { cur += c; }
+    }
   }
-  return f;
+  fields.push(cur);
+  return fields.map(f => f.trim());
 }
 
 async function loadAllData() {
@@ -42,6 +66,15 @@ async function loadAllData() {
 
 function pick(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
+}
+
+// Picks mostly from the plain pool; only occasionally reaches into the
+// modified pool (per MODIFIER_CHANCE), and only if that pool has entries.
+function weightedPick({ plain, modified }) {
+  if (modified.length > 0 && Math.random() < MODIFIER_CHANCE) {
+    return pick(modified);
+  }
+  return pick(plain.length > 0 ? plain : modified);
 }
 
 // Lowercases a leading "A"/"An"/"The" so items read naturally mid-sentence
@@ -66,12 +99,12 @@ function pickThreeCategories() {
 
 function elementFor(cat) {
   switch (cat) {
-    case "name": return pick(DATA.names);
-    case "place": return pick(DATA.places);
-    case "animal": return pick(DATA.animals);
-    case "profession": return pick(DATA.professions);
-    case "thing": return pick(DATA.things);
-    case "sport": return pick(DATA.sports);
+    case "name": return weightedPick(DATA.names);
+    case "place": return weightedPick(DATA.places);
+    case "animal": return weightedPick(DATA.animals);
+    case "profession": return weightedPick(DATA.professions);
+    case "thing": return weightedPick(DATA.things);
+    case "sport": return weightedPick(DATA.sports);
   }
 }
 
@@ -217,9 +250,177 @@ async function rateAnswer(provider, apiKey, question, answer) {
   throw new Error("Unknown provider");
 }
 
+// ---------- HALL OF FAME (localStorage, top 5 by total score) ----------
+
+const HOF_KEY = "npat_hall_of_fame";
+const SCORE_AXES = ["funny", "absurd", "weird", "dark", "clever"];
+
+function totalScore(rating) {
+  return SCORE_AXES.reduce((sum, axis) => sum + (Number(rating[axis]) || 0), 0);
+}
+
+function getHallOfFame() {
+  try {
+    return JSON.parse(localStorage.getItem(HOF_KEY) || "[]");
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveHallOfFame(list) {
+  localStorage.setItem(HOF_KEY, JSON.stringify(list));
+}
+
+// Adds this round to the Hall of Fame if it scores in the current top 5.
+// Returns true if it made the cut (so the UI can say so).
+function maybeAddToHallOfFame(question, answer, rating) {
+  const entry = {
+    question, answer,
+    verdict: rating.verdict,
+    scores: Object.fromEntries(SCORE_AXES.map(a => [a, rating[a]])),
+    total: totalScore(rating),
+    timestamp: Date.now()
+  };
+  const list = getHallOfFame();
+  list.push(entry);
+  list.sort((a, b) => b.total - a.total);
+  const trimmed = list.slice(0, 5);
+  saveHallOfFame(trimmed);
+  return trimmed.some(e => e.timestamp === entry.timestamp);
+}
+
+function renderHallOfFame() {
+  const list = getHallOfFame();
+  const container = el("hofList");
+  if (list.length === 0) {
+    container.innerHTML = `<p class="hofEmpty">No entries yet — go be absurd.</p>`;
+    return;
+  }
+  container.innerHTML = list.map((e, i) => `
+    <div class="hofEntry">
+      <div><span class="hofRank">#${i + 1} · ${e.total}/50</span></div>
+      <div class="hofQuestion">${escapeHTML(e.question)}</div>
+      <div class="hofAnswer">"${escapeHTML(e.answer)}"</div>
+      <div class="hofMeta">${escapeHTML(e.verdict || "")}</div>
+    </div>`).join("");
+}
+
+function escapeHTML(s) {
+  const div = document.createElement("div");
+  div.textContent = s;
+  return div.innerHTML;
+}
+
+// ---------- SHARE CARD (canvas image + plain-text fallback) ----------
+
+function buildShareText(question, answer, rating) {
+  const scoreLine = SCORE_AXES.map(a => `${a}: ${rating[a]}/10`).join("  ·  ");
+  return `Name, Place, Animal, Thing\n\nQ: ${question}\nA: ${answer}\n\n${scoreLine}\n"${rating.verdict}"\n\nTry it: https://github.com/askwith13/name-place-animal-thing`;
+}
+
+function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight, draw = true) {
+  const words = text.split(" ");
+  let line = "";
+  for (const word of words) {
+    const test = line ? `${line} ${word}` : word;
+    if (ctx.measureText(test).width > maxWidth && line) {
+      if (draw) ctx.fillText(line, x, y);
+      line = word;
+      y += lineHeight;
+    } else {
+      line = test;
+    }
+  }
+  if (line) { if (draw) ctx.fillText(line, x, y); y += lineHeight; }
+  return y;
+}
+
+// Share cards vary a lot in height depending on answer length, so this does
+// a dry-run layout pass (no drawing) to size the canvas before the real
+// draw pass — avoids either cutting off long answers or leaving a mostly
+// empty card for short ones.
+function drawShareCard(question, answer, rating) {
+  const canvas = el("shareCanvas");
+  const W = 900;
+  const measureCtx = canvas.getContext("2d");
+
+  measureCtx.font = "20px 'Segoe UI', sans-serif";
+  let y = wrapCanvasText(measureCtx, question, 70, 110, W - 110, 28, false);
+  y += 20;
+  measureCtx.font = "italic 20px 'Segoe UI', sans-serif";
+  y = wrapCanvasText(measureCtx, `"${answer}"`, 70, y, W - 110, 28, false);
+  y += 30 + 120; // score box row + gap
+  measureCtx.font = "italic 18px 'Segoe UI', sans-serif";
+  y = wrapCanvasText(measureCtx, `"${rating.verdict}"`, 40, y, W - 80, 24, false);
+  const H = Math.max(420, Math.round(y) + 60);
+
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext("2d");
+
+  const bgGrad = ctx.createLinearGradient(0, 0, W, H);
+  bgGrad.addColorStop(0, "#23233a");
+  bgGrad.addColorStop(1, "#12121c");
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.fillStyle = "#ffd166";
+  ctx.font = "bold 34px 'Segoe UI', sans-serif";
+  ctx.fillText("🤪 Name, Place, Animal, Thing", 40, 60);
+
+  ctx.fillStyle = "#9a9ab0";
+  ctx.font = "16px 'Segoe UI', sans-serif";
+  ctx.fillText("Q:", 40, 110);
+  ctx.fillStyle = "#f0f0f5";
+  ctx.font = "20px 'Segoe UI', sans-serif";
+  let dy = wrapCanvasText(ctx, question, 70, 110, W - 110, 28);
+
+  dy += 20;
+  ctx.fillStyle = "#9a9ab0";
+  ctx.font = "16px 'Segoe UI', sans-serif";
+  ctx.fillText("A:", 40, dy);
+  ctx.fillStyle = "#ff6b6b";
+  ctx.font = "italic 20px 'Segoe UI', sans-serif";
+  dy = wrapCanvasText(ctx, `"${answer}"`, 70, dy, W - 110, 28);
+
+  dy += 30;
+  const boxW = (W - 80 - 4 * 16) / 5;
+  SCORE_AXES.forEach((axis, i) => {
+    const bx = 40 + i * (boxW + 16);
+    ctx.fillStyle = "#1f1f2e";
+    ctx.fillRect(bx, dy, boxW, 80);
+    ctx.fillStyle = "#9a9ab0";
+    ctx.font = "13px 'Segoe UI', sans-serif";
+    ctx.fillText(axis, bx + 10, dy + 24);
+    ctx.fillStyle = "#ffd166";
+    ctx.font = "bold 26px 'Segoe UI', sans-serif";
+    ctx.fillText(`${rating[axis]}/10`, bx + 10, dy + 58);
+  });
+
+  dy += 120;
+  ctx.fillStyle = "#f0f0f5";
+  ctx.font = "italic 18px 'Segoe UI', sans-serif";
+  wrapCanvasText(ctx, `"${rating.verdict}"`, 40, dy, W - 80, 24);
+
+  ctx.fillStyle = "#9a9ab0";
+  ctx.font = "14px 'Segoe UI', sans-serif";
+  ctx.fillText("Try it: github.com/askwith13/name-place-animal-thing", 40, H - 24);
+
+  return canvas;
+}
+
+function downloadCanvasAsPNG(canvas, filename) {
+  const link = document.createElement("a");
+  link.download = filename;
+  link.href = canvas.toDataURL("image/png");
+  link.click();
+}
+
 // ---------- UI WIRING ----------
 
 const el = id => document.getElementById(id);
+let currentAnswer = "";
+let currentRating = null;
 
 function showSetup() {
   el("setup").classList.remove("hidden");
@@ -237,6 +438,7 @@ function resetRoundUI() {
   el("result").classList.add("hidden");
   el("errorBox").classList.add("hidden");
   el("answer").value = "";
+  el("hofNote").textContent = "";
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
@@ -286,8 +488,10 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     try {
       const rating = await rateAnswer(provider, apiKey, currentQuestion, answer);
+      currentAnswer = answer;
+      currentRating = rating;
       el("verdictLine").textContent = `"${rating.verdict}"`;
-      el("scores").innerHTML = ["funny", "absurd", "weird", "dark", "clever"].map(axis => `
+      el("scores").innerHTML = SCORE_AXES.map(axis => `
         <div class="score-item">
           <div class="label">${axis}</div>
           <div class="value">${rating[axis]}/10</div>
@@ -298,6 +502,9 @@ window.addEventListener("DOMContentLoaded", async () => {
       el("punNote").textContent = notes.join("  •  ");
       el("feedback").textContent = rating.feedback;
       el("result").classList.remove("hidden");
+
+      const madeHallOfFame = maybeAddToHallOfFame(currentQuestion, answer, rating);
+      el("hofNote").textContent = madeHallOfFame ? "🏆 New Hall of Fame entry!" : "";
     } catch (e) {
       el("errorBox").textContent = `Something went wrong: ${e.message}`;
       el("errorBox").classList.remove("hidden");
@@ -312,5 +519,31 @@ window.addEventListener("DOMContentLoaded", async () => {
     el("question").textContent = currentQuestion;
     resetRoundUI();
     el("answerBox").classList.remove("hidden");
+  });
+
+  el("downloadCard").addEventListener("click", () => {
+    if (!currentRating) return;
+    const canvas = drawShareCard(currentQuestion, currentAnswer, currentRating);
+    downloadCanvasAsPNG(canvas, "name-place-animal-thing.png");
+  });
+
+  el("copyText").addEventListener("click", async () => {
+    if (!currentRating) return;
+    const text = buildShareText(currentQuestion, currentAnswer, currentRating);
+    try {
+      await navigator.clipboard.writeText(text);
+      el("hofNote").textContent = "Copied to clipboard.";
+    } catch (e) {
+      el("hofNote").textContent = "Couldn't copy automatically — select and copy manually.";
+    }
+  });
+
+  el("openHallOfFame").addEventListener("click", () => {
+    renderHallOfFame();
+    el("hofModal").classList.remove("hidden");
+  });
+
+  el("closeHallOfFame").addEventListener("click", () => {
+    el("hofModal").classList.add("hidden");
   });
 });

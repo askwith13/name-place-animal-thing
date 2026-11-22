@@ -1,35 +1,8 @@
-import csv, random, itertools
+import sys, os, random
+sys.path.insert(0, os.path.dirname(__file__))
+from common import write_csv, dedupe_fill, article_for
 
 random.seed(42)
-
-def write_csv(path, items):
-    with open(path, "w", newline="") as f:
-        w = csv.writer(f)
-        w.writerow(["name"])
-        for it in items:
-            w.writerow([it])
-
-def dedupe_fill(base_list, modifiers, target, article_aware=True):
-    """Start from base_list (already full strings), then pad with
-    base+modifier combos (postfix style: "a toaster, slightly broken")
-    until we hit target unique strings. Postfix avoids a/an article bugs
-    and works for both single adjectives and verb-phrase modifiers."""
-    seen = []
-    seen_set = set()
-    def add(s):
-        if s not in seen_set:
-            seen_set.add(s)
-            seen.append(s)
-    for b in base_list:
-        add(b)
-    combos = [(m, b) for m in modifiers for b in base_list]
-    random.shuffle(combos)
-    i = 0
-    while len(seen) < target and i < len(combos):
-        m, b = combos[i]
-        i += 1
-        add(f"{b}, {m}")
-    return seen[:target]
 
 # ---------------- ANIMALS ----------------
 real_animals = ["pangolin","aardvark","narwhal","platypus","red panda","blobfish","axolotl","quokka","tapir",
@@ -70,17 +43,8 @@ animal_modifiers = ["caffeinated","philosophical","sleep-deprived","overconfiden
 "bilingual","undercover","reluctant","aspiring","washed-up","award-winning","haunted","semi-professional",
 "disgraced","self-taught"]
 
-def article_for(word):
-    """Handles the 'u' sound exception: unicorn/unicycle/ukulele etc. start
-    with a consonant SOUND despite the vowel letter, so they still take 'a'."""
-    consonant_sound_exceptions = ("uni", "use", "user", "ukulele", "european", "one")
-    wl = word.lower()
-    if wl.startswith(consonant_sound_exceptions):
-        return "a"
-    return "an" if wl[0] in "aeiou" else "a"
-
 all_animals_base = [(f"{article_for(a)} {a}") for a in real_animals] + \
                     [(f"{article_for(a)} {a}") for a in imaginary_animals]
 animals = dedupe_fill(all_animals_base, animal_modifiers, 300)
 write_csv("data/animals.csv", animals)
-print("animals:", len(animals), len(set(animals)))
+print("animals:", len(animals), len(set(a for a, _ in animals)))

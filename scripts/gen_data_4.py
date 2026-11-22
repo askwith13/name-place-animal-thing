@@ -1,30 +1,8 @@
-import csv, random
+import sys, os, random
+sys.path.insert(0, os.path.dirname(__file__))
+from common import write_csv, write_csv_plain, dedupe_fill, article_for
 
 random.seed(21)
-
-def write_csv(path, items):
-    with open(path, "w", newline="") as f:
-        w = csv.writer(f)
-        w.writerow(["name"])
-        for it in items:
-            w.writerow([it])
-
-def dedupe_fill(base_list, modifiers, target):
-    """Postfix style ("a dentist, semi-retired") avoids a/an article bugs
-    and works for both single adjectives and verb-phrase modifiers."""
-    seen, seen_set = [], set()
-    def add(s):
-        if s not in seen_set:
-            seen_set.add(s); seen.append(s)
-    for b in base_list:
-        add(b)
-    combos = [(m, b) for m in modifiers for b in base_list]
-    random.shuffle(combos)
-    i = 0
-    while len(seen) < target and i < len(combos):
-        m, b = combos[i]; i += 1
-        add(f"{b}, {m}")
-    return seen[:target]
 
 # ---------------- PERSONALITIES / NAMES ----------------
 real_people = ["Albert Einstein","Napoleon Bonaparte","Cleopatra","Marie Curie","Mahatma Gandhi","Julius Caesar",
@@ -69,7 +47,7 @@ name_modifiers = ["time-traveling","undercover","disgraced","semi-retired","acci
 all_names_base = real_people + fictional_people
 names = dedupe_fill(all_names_base, name_modifiers, 300)
 write_csv("data/personalities.csv", names)
-print("personalities:", len(names), len(set(names)))
+print("personalities:", len(names), len(set(n for n, _ in names)))
 
 # ---------------- PROFESSIONS ----------------
 real_professions = ["dentist","blacksmith","astronaut","lifeguard","accountant","barista","lumberjack","zookeeper",
@@ -107,25 +85,18 @@ profession_modifiers = ["semi-retired","freelance","unlicensed","award-winning",
 "overqualified","underqualified","moonlighting","self-taught","caffeinated","chronically late","disgraced",
 "secretly famous","surprisingly wealthy","part-time","accidental","aspiring","washed-up","conflict-averse"]
 
-def article_for(word):
-    consonant_sound_exceptions = ("uni", "use", "user", "ukulele", "european", "one")
-    wl = word.lower()
-    if wl.startswith(consonant_sound_exceptions):
-        return "a"
-    return "an" if wl[0] in "aeiou" else "a"
-
 all_prof_base = [f"{article_for(p)} {p}" for p in real_professions] + \
                 [f"{article_for(p)} {p}" for p in imaginary_professions]
 professions = dedupe_fill(all_prof_base, profession_modifiers, 300)
 write_csv("data/professions.csv", professions)
-print("professions:", len(professions), len(set(professions)))
+print("professions:", len(professions), len(set(p for p, _ in professions)))
 
-# ---------------- SPORTS (deliberately a small list) ----------------
+# ---------------- SPORTS (deliberately a small list, never modified) ----------------
 sports = ["soccer","cricket","chess","curling","sumo wrestling","fencing","archery","synchronized swimming",
 "rugby","badminton","table tennis","bowling","darts","snooker","polo","lacrosse","water polo","judo",
 "gymnastics","figure skating","ice hockey","field hockey","volleyball","handball","squash","triathlon",
 "marathon running","weightlifting","wrestling","boxing","rowing","sailing","surfing","skateboarding","breakdancing",
 "pickleball","quidditch","extreme ironing","chess boxing","underwater hockey","wife-carrying","cheese rolling",
 "competitive dog grooming"]
-write_csv("data/sports.csv", sports)
+write_csv_plain("data/sports.csv", sports)
 print("sports:", len(sports), len(set(sports)))

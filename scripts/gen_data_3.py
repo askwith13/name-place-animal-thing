@@ -1,30 +1,8 @@
-import csv, random
+import sys, os, random
+sys.path.insert(0, os.path.dirname(__file__))
+from common import write_csv, dedupe_fill, article_for
 
 random.seed(13)
-
-def write_csv(path, items):
-    with open(path, "w", newline="") as f:
-        w = csv.writer(f)
-        w.writerow(["name"])
-        for it in items:
-            w.writerow([it])
-
-def dedupe_fill(base_list, modifiers, target):
-    """Postfix style ("a toaster, slightly broken") avoids a/an article bugs
-    and works for both single adjectives and verb-phrase modifiers."""
-    seen, seen_set = [], set()
-    def add(s):
-        if s not in seen_set:
-            seen_set.add(s); seen.append(s)
-    for b in base_list:
-        add(b)
-    combos = [(m, b) for m in modifiers for b in base_list]
-    random.shuffle(combos)
-    i = 0
-    while len(seen) < target and i < len(combos):
-        m, b = combos[i]; i += 1
-        add(f"{b}, {m}")
-    return seen[:target]
 
 # ---------------- THINGS ----------------
 real_things = ["toaster","rubber duck","accordion","broken umbrella","calculator from 1987","snow globe","lava lamp",
@@ -63,15 +41,8 @@ thing_modifiers = ["slightly broken","mysteriously sticky","oddly warm","glowing
 "suspiciously clean","from a garage sale","borrowed and never returned","one of a kind","surprisingly expensive",
 "older than it looks","freshly cursed","barely functional","unreasonably loud","wrapped in bubble wrap"]
 
-def article_for(word):
-    consonant_sound_exceptions = ("uni", "use", "user", "ukulele", "european", "one")
-    wl = word.lower()
-    if wl.startswith(consonant_sound_exceptions):
-        return "a"
-    return "an" if wl[0] in "aeiou" else "a"
-
 all_things_base = [f"{article_for(t)} {t}" for t in real_things] + \
                    [f"{article_for(t)} {t}" for t in imaginary_things]
 things = dedupe_fill(all_things_base, thing_modifiers, 300)
 write_csv("data/things.csv", things)
-print("things:", len(things), len(set(things)))
+print("things:", len(things), len(set(t for t, _ in things)))

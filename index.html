@@ -31,7 +31,10 @@
     <div id="game" class="card hidden">
       <div class="toprow">
         <span class="small muted" id="providerNote"></span>
-        <button class="linklike" id="changeKey">change key / provider</button>
+        <span>
+          <button class="linklike" id="openHallOfFame">🏆 Hall of Fame</button>
+          <button class="linklike" id="changeKey">change key / provider</button>
+        </span>
       </div>
       <h2 id="question">Click "New Question" to begin.</h2>
       <button id="newQuestion">🎲 New Question</button>
@@ -46,6 +49,11 @@
         <div class="scores" id="scores"></div>
         <p id="punNote"></p>
         <p id="feedback" class="small"></p>
+        <div class="shareRow">
+          <button id="downloadCard">🖼️ Download share card</button>
+          <button id="copyText" class="linklike">📋 copy as text</button>
+          <span class="small muted" id="hofNote"></span>
+        </div>
         <button id="playAgain">Play Again</button>
       </div>
 
@@ -53,11 +61,24 @@
       <div id="errorBox" class="hidden small error"></div>
     </div>
 
+    <!-- HALL OF FAME MODAL -->
+    <div id="hofModal" class="modalOverlay hidden">
+      <div class="modalCard">
+        <div class="toprow">
+          <h2>🏆 Your Hall of Fame</h2>
+          <button class="linklike" id="closeHallOfFame">close</button>
+        </div>
+        <p class="small muted">Your top 5 highest-scoring answers, saved only in this browser.</p>
+        <div id="hofList"></div>
+      </div>
+    </div>
+
     <footer>
       <p class="small muted">Open source. Bring your own API key. No ads, no server, no tracking.</p>
     </footer>
   </div>
 
+<canvas id="shareCanvas" width="900" height="420" class="hidden"></canvas>
 <script src="app.js"></script>
 </body>
 </html>

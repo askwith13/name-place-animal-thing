@@ -1,301 +1,301 @@
-name
-a dentist
-a blacksmith
-an astronaut
-a lifeguard
-an accountant
-a barista
-a lumberjack
-a zookeeper
-a florist
-a locksmith
-a cartographer
-a taxidermist
-a sommelier
-a falconer
-a beekeeper
-a librarian
-a plumber
-an electrician
-a chimney sweep
-a lighthouse keeper
-a translator
-a bodyguard
-a private investigator
-a tattoo artist
-a puppeteer
-a ventriloquist
-a mime
-a magician
-a clown
-a stunt double
-a voice actor
-a radio DJ
-a weather forecaster
-an air traffic controller
-a submarine engineer
-a volcanologist
-a marine biologist
-an entomologist
-a paleontologist
-an archivist
-a museum curator
-an auctioneer
-a notary public
-a court stenographer
-a bailiff
-a park ranger
-a ski instructor
-a scuba instructor
-a sommelier's apprentice
-a pastry chef
-a butcher
-a baker
-a candlestick maker
-a watchmaker
-a glassblower
-a blacksmith's apprentice
-a shoemaker
-a tailor
-a seamstress
-an upholsterer
-an embalmer
-a funeral director
-a wedding planner
-an event caterer
-a food critic
-a sommelier for tea
-a barista competition judge
-a professional cuddler
-a dog walker
-a pet psychic
-a horse whisperer
-a snake charmer
-a bee whisperer
-a mushroom forager
-a truffle hunter
-a perfumer
-a chocolatier
-an ice sculptor
-a sandcastle architect
-a crossword puzzle writer
-a riddle master
-a fortune teller
-a tarot reader
-an astrologer
-a palm reader
-a hypnotist
-a sleep coach
-a professional napper
-a competitive eater
-a food taster for royalty
-a wine taster
-a cheese grader
-a tea ceremony master
-an origami instructor
-a calligrapher
-a typewriter repair technician
-a piano tuner
-a bell ringer
-an organ builder
-a church bell maintenance worker
-a lighthouse automation technician
-a buoy inspector
-an iceberg spotter
-a shipwreck salvager
-a treasure hunter
-an antique restorer
-a clock repair specialist
-a jigsaw puzzle designer
-an escape room designer
-a theme park ride operator
-a roller coaster safety inspector
-a fireworks technician
-a stunt pyrotechnician
-a special effects makeup artist
-a costume designer
-a set builder
-a prop master
-a foley artist
-a subtitle translator
-a dubbing voice director
-a video game tester
-a toy inventor
-a board game designer
-a balloon artist
-a face painter
-a birthday party clown
-a children's book illustrator
-a dragon exterminator
-a professional ghost negotiator
-a time-traveling tax auditor
-an interdimensional customs officer
-a unicorn groomer
-a wizard licensing inspector
-a potion quality control officer
-a dungeon safety inspector
-a vampire dental hygienist
-a werewolf parole officer
-a zombie outreach coordinator
-a goblin union representative
-a fairy godmother temp worker
-a dragon egg incubation specialist
-a troll bridge toll collector
-a spellbook editor
-a cursed object disposal technician
-an alien tourism guide
-a portal maintenance engineer
-a kraken relocation specialist
-a phoenix fire insurance adjuster
-a yeti habitat consultant
-a basilisk eye contact trainer
-a griffin veterinarian
-a sphinx riddle fact-checker
-a minotaur maze architect
-a centaur chiropodist
-a mermaid speech therapist
-a genie wish-contract lawyer
-an elf overtime negotiator
-a dwarf mine safety officer
-a troll bridge toll auditor
-a banshee noise-complaint mediator
-"a sphinx riddle fact-checker, washed-up"
-"a video game tester, award-winning"
-"a funeral director, underqualified"
-"a candlestick maker, moonlighting"
-"a blacksmith, underqualified"
-"a translator, part-time"
-"a barista, aspiring"
-"a children's book illustrator, aspiring"
-"a toy inventor, underqualified"
-"an interdimensional customs officer, aspiring"
-"a cheese grader, secretly famous"
-"a balloon artist, notoriously unreliable"
-"a mermaid speech therapist, chronically late"
-"a video game tester, caffeinated"
-"a dog walker, caffeinated"
-"a stunt double, overqualified"
-"a set builder, washed-up"
-"a tea ceremony master, freelance"
-"a palm reader, washed-up"
-"a stunt double, self-taught"
-"a typewriter repair technician, chronically late"
-"an archivist, moonlighting"
-"a calligrapher, secretly famous"
-"a tailor, unlicensed"
-"a portal maintenance engineer, notoriously unreliable"
-"a sommelier, aspiring"
-"an ice sculptor, freelance"
-"a face painter, moonlighting"
-"a goblin union representative, self-taught"
-"a church bell maintenance worker, moonlighting"
-"a scuba instructor, award-winning"
-"a foley artist, secretly famous"
-"an elf overtime negotiator, chronically late"
-"a scuba instructor, self-taught"
-"a barista, semi-retired"
-"a fortune teller, award-winning"
-"a phoenix fire insurance adjuster, aspiring"
-"an air traffic controller, disgraced"
-"a zookeeper, accidental"
-"a zookeeper, underqualified"
-"a baker, unlicensed"
-"a wizard licensing inspector, freelance"
-"a paleontologist, caffeinated"
-"a paleontologist, aspiring"
-"a theme park ride operator, freelance"
-"a spellbook editor, freelance"
-"a balloon artist, self-taught"
-"a tailor, underqualified"
-"a sleep coach, conflict-averse"
-"a tarot reader, washed-up"
-"a goblin union representative, semi-retired"
-"a theme park ride operator, overqualified"
-"a sandcastle architect, semi-retired"
-"a ski instructor, unlicensed"
-"a potion quality control officer, secretly famous"
-"an elf overtime negotiator, aspiring"
-"a volcanologist, washed-up"
-"a museum curator, caffeinated"
-"a hypnotist, chronically late"
-"a bodyguard, caffeinated"
-"a notary public, unlicensed"
-"a plumber, washed-up"
-"a private investigator, accidental"
-"an origami instructor, notoriously unreliable"
-"a paleontologist, chronically late"
-"a scuba instructor, secretly famous"
-"a competitive eater, self-taught"
-"a theme park ride operator, conflict-averse"
-"a sandcastle architect, overqualified"
-"a unicorn groomer, aspiring"
-"a dog walker, moonlighting"
-"a professional napper, washed-up"
-"an ice sculptor, moonlighting"
-"a butcher, accidental"
-"a face painter, semi-retired"
-"a baker, overqualified"
-"a palm reader, award-winning"
-"a foley artist, overqualified"
-"a goblin union representative, moonlighting"
-"a fairy godmother temp worker, semi-retired"
-"a sphinx riddle fact-checker, disgraced"
-"a volcanologist, underqualified"
-"a taxidermist, part-time"
-"a sommelier for tea, surprisingly wealthy"
-"a pet psychic, unlicensed"
-"a tattoo artist, conflict-averse"
-"an astronaut, unlicensed"
-"a sleep coach, chronically late"
-"a candlestick maker, self-taught"
-"a phoenix fire insurance adjuster, part-time"
-"a hypnotist, washed-up"
-"a troll bridge toll collector, notoriously unreliable"
-"a lumberjack, conflict-averse"
-"a genie wish-contract lawyer, washed-up"
-"a stunt double, moonlighting"
-"a professional napper, semi-retired"
-"a blacksmith's apprentice, washed-up"
-"a stunt pyrotechnician, disgraced"
-"an embalmer, award-winning"
-"a submarine engineer, caffeinated"
-"a buoy inspector, award-winning"
-"a scuba instructor, part-time"
-"a minotaur maze architect, freelance"
-"a watchmaker, surprisingly wealthy"
-"a cheese grader, underqualified"
-"an elf overtime negotiator, accidental"
-"a roller coaster safety inspector, award-winning"
-"a costume designer, aspiring"
-"a toy inventor, notoriously unreliable"
-"an alien tourism guide, surprisingly wealthy"
-"a dog walker, self-taught"
-"a face painter, secretly famous"
-"a zookeeper, notoriously unreliable"
-"a dragon egg incubation specialist, self-taught"
-"a wedding planner, moonlighting"
-"a clock repair specialist, self-taught"
-"a riddle master, self-taught"
-"a shipwreck salvager, accidental"
-"a tarot reader, moonlighting"
-"a palm reader, notoriously unreliable"
-"a palm reader, unlicensed"
-"a costume designer, unlicensed"
-"a sommelier for tea, secretly famous"
-"a sommelier's apprentice, award-winning"
-"a horse whisperer, part-time"
-"a snake charmer, overqualified"
-"a fortune teller, conflict-averse"
-"a fairy godmother temp worker, award-winning"
-"an astronaut, secretly famous"
-"a tattoo artist, accidental"
-"a zombie outreach coordinator, overqualified"
-"a typewriter repair technician, caffeinated"
-"a truffle hunter, secretly famous"
-"a dog walker, notoriously unreliable"
-"a goblin union representative, conflict-averse"
-"a seamstress, caffeinated"
-"a dragon exterminator, caffeinated"
-"a calligrapher, disgraced"
-"a roller coaster safety inspector, freelance"
-"a vampire dental hygienist, underqualified"
+name,modified
+a dentist,0
+a blacksmith,0
+an astronaut,0
+a lifeguard,0
+an accountant,0
+a barista,0
+a lumberjack,0
+a zookeeper,0
+a florist,0
+a locksmith,0
+a cartographer,0
+a taxidermist,0
+a sommelier,0
+a falconer,0
+a beekeeper,0
+a librarian,0
+a plumber,0
+an electrician,0
+a chimney sweep,0
+a lighthouse keeper,0
+a translator,0
+a bodyguard,0
+a private investigator,0
+a tattoo artist,0
+a puppeteer,0
+a ventriloquist,0
+a mime,0
+a magician,0
+a clown,0
+a stunt double,0
+a voice actor,0
+a radio DJ,0
+a weather forecaster,0
+an air traffic controller,0
+a submarine engineer,0
+a volcanologist,0
+a marine biologist,0
+an entomologist,0
+a paleontologist,0
+an archivist,0
+a museum curator,0
+an auctioneer,0
+a notary public,0
+a court stenographer,0
+a bailiff,0
+a park ranger,0
+a ski instructor,0
+a scuba instructor,0
+a sommelier's apprentice,0
+a pastry chef,0
+a butcher,0
+a baker,0
+a candlestick maker,0
+a watchmaker,0
+a glassblower,0
+a blacksmith's apprentice,0
+a shoemaker,0
+a tailor,0
+a seamstress,0
+an upholsterer,0
+an embalmer,0
+a funeral director,0
+a wedding planner,0
+an event caterer,0
+a food critic,0
+a sommelier for tea,0
+a barista competition judge,0
+a professional cuddler,0
+a dog walker,0
+a pet psychic,0
+a horse whisperer,0
+a snake charmer,0
+a bee whisperer,0
+a mushroom forager,0
+a truffle hunter,0
+a perfumer,0
+a chocolatier,0
+an ice sculptor,0
+a sandcastle architect,0
+a crossword puzzle writer,0
+a riddle master,0
+a fortune teller,0
+a tarot reader,0
+an astrologer,0
+a palm reader,0
+a hypnotist,0
+a sleep coach,0
+a professional napper,0
+a competitive eater,0
+a food taster for royalty,0
+a wine taster,0
+a cheese grader,0
+a tea ceremony master,0
+an origami instructor,0
+a calligrapher,0
+a typewriter repair technician,0
+a piano tuner,0
+a bell ringer,0
+an organ builder,0
+a church bell maintenance worker,0
+a lighthouse automation technician,0
+a buoy inspector,0
+an iceberg spotter,0
+a shipwreck salvager,0
+a treasure hunter,0
+an antique restorer,0
+a clock repair specialist,0
+a jigsaw puzzle designer,0
+an escape room designer,0
+a theme park ride operator,0
+a roller coaster safety inspector,0
+a fireworks technician,0
+a stunt pyrotechnician,0
+a special effects makeup artist,0
+a costume designer,0
+a set builder,0
+a prop master,0
+a foley artist,0
+a subtitle translator,0
+a dubbing voice director,0
+a video game tester,0
+a toy inventor,0
+a board game designer,0
+a balloon artist,0
+a face painter,0
+a birthday party clown,0
+a children's book illustrator,0
+a dragon exterminator,0
+a professional ghost negotiator,0
+a time-traveling tax auditor,0
+an interdimensional customs officer,0
+a unicorn groomer,0
+a wizard licensing inspector,0
+a potion quality control officer,0
+a dungeon safety inspector,0
+a vampire dental hygienist,0
+a werewolf parole officer,0
+a zombie outreach coordinator,0
+a goblin union representative,0
+a fairy godmother temp worker,0
+a dragon egg incubation specialist,0
+a troll bridge toll collector,0
+a spellbook editor,0
+a cursed object disposal technician,0
+an alien tourism guide,0
+a portal maintenance engineer,0
+a kraken relocation specialist,0
+a phoenix fire insurance adjuster,0
+a yeti habitat consultant,0
+a basilisk eye contact trainer,0
+a griffin veterinarian,0
+a sphinx riddle fact-checker,0
+a minotaur maze architect,0
+a centaur chiropodist,0
+a mermaid speech therapist,0
+a genie wish-contract lawyer,0
+an elf overtime negotiator,0
+a dwarf mine safety officer,0
+a troll bridge toll auditor,0
+a banshee noise-complaint mediator,0
+"a sphinx riddle fact-checker, washed-up",1
+"a video game tester, award-winning",1
+"a funeral director, underqualified",1
+"a candlestick maker, moonlighting",1
+"a blacksmith, underqualified",1
+"a translator, part-time",1
+"a barista, aspiring",1
+"a children's book illustrator, aspiring",1
+"a toy inventor, underqualified",1
+"an interdimensional customs officer, aspiring",1
+"a cheese grader, secretly famous",1
+"a balloon artist, notoriously unreliable",1
+"a mermaid speech therapist, chronically late",1
+"a video game tester, caffeinated",1
+"a dog walker, caffeinated",1
+"a stunt double, overqualified",1
+"a set builder, washed-up",1
+"a tea ceremony master, freelance",1
+"a palm reader, washed-up",1
+"a stunt double, self-taught",1
+"a typewriter repair technician, chronically late",1
+"an archivist, moonlighting",1
+"a calligrapher, secretly famous",1
+"a tailor, unlicensed",1
+"a portal maintenance engineer, notoriously unreliable",1
+"a sommelier, aspiring",1
+"an ice sculptor, freelance",1
+"a face painter, moonlighting",1
+"a goblin union representative, self-taught",1
+"a church bell maintenance worker, moonlighting",1
+"a scuba instructor, award-winning",1
+"a foley artist, secretly famous",1
+"an elf overtime negotiator, chronically late",1
+"a scuba instructor, self-taught",1
+"a barista, semi-retired",1
+"a fortune teller, award-winning",1
+"a phoenix fire insurance adjuster, aspiring",1
+"an air traffic controller, disgraced",1
+"a zookeeper, accidental",1
+"a zookeeper, underqualified",1
+"a baker, unlicensed",1
+"a wizard licensing inspector, freelance",1
+"a paleontologist, caffeinated",1
+"a paleontologist, aspiring",1
+"a theme park ride operator, freelance",1
+"a spellbook editor, freelance",1
+"a balloon artist, self-taught",1
+"a tailor, underqualified",1
+"a sleep coach, conflict-averse",1
+"a tarot reader, washed-up",1
+"a goblin union representative, semi-retired",1
+"a theme park ride operator, overqualified",1
+"a sandcastle architect, semi-retired",1
+"a ski instructor, unlicensed",1
+"a potion quality control officer, secretly famous",1
+"an elf overtime negotiator, aspiring",1
+"a volcanologist, washed-up",1
+"a museum curator, caffeinated",1
+"a hypnotist, chronically late",1
+"a bodyguard, caffeinated",1
+"a notary public, unlicensed",1
+"a plumber, washed-up",1
+"a private investigator, accidental",1
+"an origami instructor, notoriously unreliable",1
+"a paleontologist, chronically late",1
+"a scuba instructor, secretly famous",1
+"a competitive eater, self-taught",1
+"a theme park ride operator, conflict-averse",1
+"a sandcastle architect, overqualified",1
+"a unicorn groomer, aspiring",1
+"a dog walker, moonlighting",1
+"a professional napper, washed-up",1
+"an ice sculptor, moonlighting",1
+"a butcher, accidental",1
+"a face painter, semi-retired",1
+"a baker, overqualified",1
+"a palm reader, award-winning",1
+"a foley artist, overqualified",1
+"a goblin union representative, moonlighting",1
+"a fairy godmother temp worker, semi-retired",1
+"a sphinx riddle fact-checker, disgraced",1
+"a volcanologist, underqualified",1
+"a taxidermist, part-time",1
+"a sommelier for tea, surprisingly wealthy",1
+"a pet psychic, unlicensed",1
+"a tattoo artist, conflict-averse",1
+"an astronaut, unlicensed",1
+"a sleep coach, chronically late",1
+"a candlestick maker, self-taught",1
+"a phoenix fire insurance adjuster, part-time",1
+"a hypnotist, washed-up",1
+"a troll bridge toll collector, notoriously unreliable",1
+"a lumberjack, conflict-averse",1
+"a genie wish-contract lawyer, washed-up",1
+"a stunt double, moonlighting",1
+"a professional napper, semi-retired",1
+"a blacksmith's apprentice, washed-up",1
+"a stunt pyrotechnician, disgraced",1
+"an embalmer, award-winning",1
+"a submarine engineer, caffeinated",1
+"a buoy inspector, award-winning",1
+"a scuba instructor, part-time",1
+"a minotaur maze architect, freelance",1
+"a watchmaker, surprisingly wealthy",1
+"a cheese grader, underqualified",1
+"an elf overtime negotiator, accidental",1
+"a roller coaster safety inspector, award-winning",1
+"a costume designer, aspiring",1
+"a toy inventor, notoriously unreliable",1
+"an alien tourism guide, surprisingly wealthy",1
+"a dog walker, self-taught",1
+"a face painter, secretly famous",1
+"a zookeeper, notoriously unreliable",1
+"a dragon egg incubation specialist, self-taught",1
+"a wedding planner, moonlighting",1
+"a clock repair specialist, self-taught",1
+"a riddle master, self-taught",1
+"a shipwreck salvager, accidental",1
+"a tarot reader, moonlighting",1
+"a palm reader, notoriously unreliable",1
+"a palm reader, unlicensed",1
+"a costume designer, unlicensed",1
+"a sommelier for tea, secretly famous",1
+"a sommelier's apprentice, award-winning",1
+"a horse whisperer, part-time",1
+"a snake charmer, overqualified",1
+"a fortune teller, conflict-averse",1
+"a fairy godmother temp worker, award-winning",1
+"an astronaut, secretly famous",1
+"a tattoo artist, accidental",1
+"a zombie outreach coordinator, overqualified",1
+"a typewriter repair technician, caffeinated",1
+"a truffle hunter, secretly famous",1
+"a dog walker, notoriously unreliable",1
+"a goblin union representative, conflict-averse",1
+"a seamstress, caffeinated",1
+"a dragon exterminator, caffeinated",1
+"a calligrapher, disgraced",1
+"a roller coaster safety inspector, freelance",1
+"a vampire dental hygienist, underqualified",1
